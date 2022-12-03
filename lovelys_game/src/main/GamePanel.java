@@ -5,11 +5,13 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import Inputs.KeyboardInputs;
+import inputs.KeyboardInputs;
+import inputs.MouseInputs;
 
 public class GamePanel  extends JPanel{
 	public GamePanel() {
 		addKeyListener(new KeyboardInputs());
+		addMouseListener(new MouseInputs());
 		
 	}
 	
