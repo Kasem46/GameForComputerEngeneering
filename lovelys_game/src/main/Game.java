@@ -19,8 +19,17 @@ public class Game implements Runnable{
 	@Override
 	public void run() {
 		
-		double timePerFrame = 1/FPS_SET;
+		double timePerFrame = 1000000000.0/FPS_SET;
+		long lastFrame = System.nanoTime();
+		long now = System.nanoTime();
+		
 		while(true) {
+			
+			now = System.nanoTime();
+			if(now - lastFrame >= timePerFrame) {
+				gamePanel.repaint();
+				lastFrame = now;
+			}
 			
 		}
 		
