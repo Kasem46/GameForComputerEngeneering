@@ -14,6 +14,9 @@ public class GamePanel  extends JPanel{
 	private int deltaX;
 	private int deltaY;
 	
+	private int frames = 0;
+	private long lastCheck = 0;
+	
 	public GamePanel() {
 		myMouseInputs = new MouseInputs(this);
 		addKeyListener(new KeyboardInputs(this));
@@ -41,6 +44,13 @@ public class GamePanel  extends JPanel{
 		super.paintComponent(g);
 		
 		g.fillRect(0 + deltaX,0 + deltaY,50,50);
+		frames++;
+		if(System.currentTimeMillis() - lastCheck >= 1000) {
+			lastCheck = System.currentTimeMillis();
+			System.out.println("FPS: " + frames);	
+			frames = 0;
+		}
+		
 		repaint();
 	}
 }
