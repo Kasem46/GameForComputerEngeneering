@@ -1,14 +1,8 @@
 package entities;
 
-import static utilz.Constants.Directions.DOWN;
-import static utilz.Constants.Directions.LEFT;
-import static utilz.Constants.Directions.RIGHT;
-import static utilz.Constants.Directions.UP;
-import static utilz.Constants.PlayerConstants.ATTACK;
-import static utilz.Constants.PlayerConstants.GetSpriteAmount;
-import static utilz.Constants.PlayerConstants.IDLE;
-import static utilz.Constants.PlayerConstants.RUNNING;
+import static utilz.Constants.Directions.*;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,14 +21,18 @@ public class Player extends Entity{
 	
 	public Player(float x, float y) {
 		super(x, y);
+		loadAnimations();
 		
 	}
 	
 	public void update() {
+		setAnimation();
+		updatePos();
 		
+		updateAnimationTick();
 	}
-	public void render() {
-		
+	public void render(Graphics g) {
+		g.drawImage(animations[playerAction][aniIndex], 128*2,128*2,null);
 	}
 	
 	private void loadAnimations() {

@@ -16,22 +16,12 @@ public class GamePanel  extends JPanel{
 
 	private MouseInputs myMouseInputs;
 	
-	private int x;
-	private int y;
+	private Game game;
 	
-	private BufferedImage img;
-	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 5;
-	
-	private int playerAction = ATTACK;
-	private int playerDir = -1;
-	private boolean moving = false;
-	
-	public GamePanel() {
+	public GamePanel(Game game) {
 		myMouseInputs = new MouseInputs(this);
 		
-		importImg();
-		loadAnimations();
+		this.game = game;
 		
 		setPanelSize();
 		
@@ -41,34 +31,6 @@ public class GamePanel  extends JPanel{
 		
 	}
 	
-	private void loadAnimations() {
-		animations = new BufferedImage[8][8];
-		
-		for(int j = 0; j < animations.length; j++)
-		for(int i = 0; i < animations[j].length;i++) {
-			animations[j][i] = img.getSubimage(i*64, j*64, 64, 64);
-		}
-		
-	}
-
-	private void importImg() {
-		InputStream is = getClass().getResourceAsStream("/PlayerSheet.png");
-		
-		try {
-			img = ImageIO.read(is);
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
-		}
-		
-	}
 
 	private void setPanelSize() {
 		Dimension size = new Dimension(1280,800);
@@ -76,68 +38,22 @@ public class GamePanel  extends JPanel{
 		
 	}
 	
-	public void setDirection(int Direction) {
-		this.playerDir = Direction;
-		moving = true;
-	}
-
-	public void setMoving(boolean moving) {
-		this.moving = moving;
-	}
 	
-	public void updatePos() {
-		if(moving) {
-			switch(playerDir) {
-			case LEFT:
-				x -= 5;
-				break;
-			case RIGHT:
-				x += 5;
-				break;
-			case UP:
-				y -= 5;
-				break;
-			case DOWN:
-				y += 5;
-				break;
-			}
-		}
-	}
+	
+	
 	
 	public void updateGame() {
-		setAnimation();
-		updatePos();
 		
-		updateAnimationTick();
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		
-		
-		g.drawImage(animations[playerAction][aniIndex], x, y, 128*2,128*2,null);
-		
-	}
-
-	private void updateAnimationTick() {
-		aniTick++;
-		if(aniTick >= aniSpeed) {
-			aniTick = 0;
-			aniIndex++;
-			if(aniIndex >= GetSpriteAmount(playerAction)) {
-				aniIndex = 0;
-			}
-		}
-		
-		
+		game.render(g);
+					
 	}
 	
-	private void setAnimation() {
-		if(moving) {
-			playerAction = RUNNING;
-		}else {
-			playerAction = IDLE;
-		}
+	public Game getGame() {
+		return game;
 	}
 }
