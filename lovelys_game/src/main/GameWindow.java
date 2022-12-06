@@ -9,12 +9,13 @@ public class GameWindow {
 		//set default window values 
 		this.jFrame = new JFrame();
 		
-		jFrame.setSize(400,400);
+		
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.setResizable(false);
 		jFrame.setLocationRelativeTo(null);
 		
 		jFrame.add(gamePanel);
+		jFrame.pack();
 		
 		jFrame.setVisible(true);
 		
