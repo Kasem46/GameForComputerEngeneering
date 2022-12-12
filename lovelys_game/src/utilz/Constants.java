@@ -4,6 +4,16 @@ import main.Game;
 
 public class Constants {
 	
+	public static class SkellyConstants{
+		public final int SKELLY = 0;
+		
+		public final int IDLE = 0;
+		public final int ATTACKING = 1;
+		public final int DEAD = 2;
+		public final int WALK = 3;
+		public final int HIT = 4;
+	}
+	
 	public static class Enviroment{
 		public static final int BIG_CLOUD_WIDTH_DEFAULT = 448;
 		public static final int BIG_CLOUD_HEIGHT_DEFAULT = 101;

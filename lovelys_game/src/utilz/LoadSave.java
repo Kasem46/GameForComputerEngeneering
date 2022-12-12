@@ -25,6 +25,12 @@ public class LoadSave {
 	public static final String BIG_CLOUDS = "big_clouds.png";
 	public static final String SMALL_CLOUDS = "small_clouds.png";
 	
+	//enemy sheneanigains 
+	public static final String SKELLY_RUN = "Skeleton Walk.png";
+	public static final String SKELLY_DEAD = "Skeleton Dead.png";
+	public static final String SKELLY_IDLE = "Skeleton Idle.png";
+	public static final String SKELLY_HIT = "Skeleton Hit.png";
+	public static final String SKELLY_ATTACK = "Skeleton Attack.png";
 	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
