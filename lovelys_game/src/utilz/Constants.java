@@ -5,13 +5,70 @@ import main.Game;
 public class Constants {
 	
 	public static class SkellyConstants{
-		public final int SKELLY = 0;
+		public static final int SKELLY = 0;
 		
-		public final int IDLE = 0;
-		public final int ATTACKING = 1;
-		public final int DEAD = 2;
-		public final int WALK = 3;
-		public final int HIT = 4;
+		public static final int IDLE = 0;
+		public static final int ATTACKING = 1;
+		public static final int DEAD = 2;
+		public static final int WALK = 3;
+		public static final int HIT = 4;
+		
+		public static final int ATTACKING_WIDTH_DEFAULT = 43;
+		public static final int ATTACKING_HEIGHT_DEFAULT = 37;
+		public static final int ATTACKING_WIDTH = (int)(ATTACKING_WIDTH_DEFAULT*Game.SCALE);
+		public static final int ATTACKING_HEIGHT = (int)(ATTACKING_HEIGHT_DEFAULT*Game.SCALE);
+		public static final int ATTACKING_DRAW_OFFSET_X = (int)(9*Game.SCALE);
+		public static final int ATTACKING_DRAW_OFFSET_Y = (int)(14*Game.SCALE);
+		
+		public static final int IDLE_WIDTH_DEFAULT = 24;
+		public static final int IDLE_HEIGHT_DEFAULT = 32;
+		public static final int IDLE_WIDTH = (int)(IDLE_WIDTH_DEFAULT*Game.SCALE);
+		public static final int IDLE_HEIGTH = (int)(IDLE_HEIGHT_DEFAULT*Game.SCALE);
+		public static final int IDLE_HITBOX_WIDTH = (int)(10*Game.SCALE);
+		public static final int IDLE_HITBOX_HEIGHT = (int)(24*Game.SCALE);
+		public static final int IDLE_DRAW_OFFSET_X = (int)(6*Game.SCALE);
+		public static final int IDLE_DRAW_OFFSET_Y = (int)(9*Game.SCALE);
+		
+		public static final int DEAD_WIDTH_DEFAULT = 32;
+		public static final int DEAD_HEIGHT_DEFAULT = 32;
+		public static final int DEAD_WIDTH = (int)(DEAD_WIDTH_DEFAULT*Game.SCALE);
+		public static final int DEAD_HEIGTH = (int)(DEAD_HEIGHT_DEFAULT*Game.SCALE);
+		
+		public static final int HIT_WIDTH_DEFAULT = 30;
+		public static final int HIT_HEIGHT_DEFAULT = 32;
+		public static final int HIT_WIDTH = (int)(HIT_WIDTH_DEFAULT*Game.SCALE);
+		public static final int HIT_HEIGTH = (int)(HIT_HEIGHT_DEFAULT*Game.SCALE);
+		
+		public static final int WALK_WIDTH_DEFAULT = 22;
+		public static final int WALK_HEIGHT_DEFAULT = 33;
+		public static final int WALK_WIDTH = (int)(WALK_WIDTH_DEFAULT*Game.SCALE);
+		public static final int WALK_HEIGTH = (int)(WALK_HEIGHT_DEFAULT*Game.SCALE);
+		public static final int WALK_HITBOX_WIDTH = (int)(10*Game.SCALE);
+		public static final int WALK_HITBOX_HEIGHT = (int)(25*Game.SCALE);
+		public static final int WALK_DRAW_OFFSET_X = (int)(3*Game.SCALE);
+		public static final int WALK_DRAW_OFFSET_Y = (int)(9*Game.SCALE);
+		
+		
+				
+		public static int GetSpriteAmount(int EnemyType,int EnemyState) {
+			switch(EnemyType) {
+			case SKELLY:
+				switch(EnemyState) {
+				case IDLE:
+					return 11;
+				case WALK:
+					return 13;
+				case HIT:
+					return 8;
+				case ATTACKING:
+					return 18;
+				case DEAD:
+					return 15;
+				}
+			}
+			
+			return 0;
+		}
 	}
 	
 	public static class Enviroment{

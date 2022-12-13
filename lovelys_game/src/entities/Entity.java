@@ -33,7 +33,7 @@ public abstract class Entity {
 		
 		
 	}
-	//protected void updateHitbox() {
+	//protected void updateHitbox(int x,int y,) {
 //		hitbox.x = (int)x;
 //		hitbox.y = (int)y;
 //	}

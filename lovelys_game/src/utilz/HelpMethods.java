@@ -1,6 +1,7 @@
 package utilz;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 
 import main.Game;
 
@@ -32,12 +33,7 @@ public class HelpMethods {
 		float xIndex = x/Game.TILES_SIZE;
 		float yIndex = y/Game.TILES_SIZE;
 		
-		int value  = lvlData[(int)yIndex][(int)xIndex];
-		if(value >= 48 || value < 0|| value != 11) {
-			return true;
-		}else {
-			return false;
-		}
+		return isTileSolid((int)xIndex,(int)yIndex,lvlData);
 		
 	}
 	
@@ -82,5 +78,41 @@ public class HelpMethods {
 		
 		
 		return true;
+	}
+	
+	public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
+		return IsSolid(hitbox.x + xSpeed,hitbox.y + hitbox.height + 1, lvlData);
+	}
+	
+	public static boolean isTileSolid(int xTile, int yTile, int[][] lvlData) {
+		int value  = lvlData[yTile][xTile];
+		if(value >= 48 || value < 0|| value != 11) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public static boolean IsAllTileWalkable(int xStart,int xEnd,int y, int[][] lvlData) {
+		for(int i = 0; i < xEnd - xStart;i++) {
+			if(isTileSolid(xStart + i,y,lvlData)) {
+				return false;
+			}
+			if(!isTileSolid(xStart + i,y + 1,lvlData)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static boolean isSightClear(int[][] lvlData, Rectangle2D.Float hitbox1, Rectangle2D.Float hitbox2, int tileY) {
+		int firstXTile = (int)(hitbox1.x / Game.TILES_SIZE);
+		int secondXTile = (int)(hitbox2.x / Game.TILES_SIZE);
+		
+		if(firstXTile > secondXTile) {
+			return IsAllTileWalkable(secondXTile,firstXTile,tileY,lvlData);
+		}else {
+			return IsAllTileWalkable(firstXTile,secondXTile,tileY,lvlData);
+		}
 	}
 }
