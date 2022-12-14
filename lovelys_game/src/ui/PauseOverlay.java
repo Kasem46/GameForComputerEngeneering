@@ -139,7 +139,7 @@ public class PauseOverlay {
 			 }
 		}else if(isIn(e,replayB)) {
 			if(replayB.isMousePressed()) {
-				 System.out.println("replay time");
+				 playing.resetAll();
 			 }
 		}else if(isIn(e,unpauseB)) {
 			if(unpauseB.isMousePressed()) {

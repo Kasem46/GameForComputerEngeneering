@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -24,7 +25,9 @@ public class EnemyManager {
 	
 	public void update(int[][] lvlData, Player player) {
 		for(Skelly s : skellies) {
-			s.update(lvlData, player);
+			if(s.isActive()) {
+				s.update(lvlData, player);
+			}
 		}
 	}
 	
@@ -34,29 +37,44 @@ public class EnemyManager {
 
 	private void drawSkellies(Graphics g,int xLvlOffset) {
 		for(Skelly s : skellies) {
-			switch(s.getEnemyState()) {
-			case IDLE:
-				g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], (int)s.getHitbox().x - IDLE_DRAW_OFFSET_X - xLvlOffset, (int)s.getHitbox().y - IDLE_DRAW_OFFSET_Y, IDLE_WIDTH,IDLE_HEIGTH, null);
-				break;
-			case ATTACKING:
-				g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], (int)s.getHitbox().x - ATTACKING_DRAW_OFFSET_X - xLvlOffset, (int)s.getHitbox().y - ATTACKING_DRAW_OFFSET_Y, ATTACKING_WIDTH,ATTACKING_HEIGHT, null);
-				break;
-			case DEAD:
-				g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], (int)s.getHitbox().x - xLvlOffset, (int)s.getHitbox().y, DEAD_WIDTH,DEAD_HEIGTH, null);
-				break;
-			case HIT:
-				g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], (int)s.getHitbox().x - xLvlOffset, (int)s.getHitbox().y, HIT_WIDTH,HIT_HEIGTH, null);
-				break;
-			case WALK:
-				g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], (int)s.getHitbox().x -WALK_DRAW_OFFSET_X - xLvlOffset, (int)s.getHitbox().y - WALK_DRAW_OFFSET_Y, WALK_WIDTH,WALK_HEIGTH, null);
-				break;
-			
+			if(s.isActive()) {
+				switch(s.getEnemyState()) {
+				case IDLE:
+					g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], s.flipX() + (int)s.getHitbox().x - IDLE_DRAW_OFFSET_X - xLvlOffset, (int)s.getHitbox().y - IDLE_DRAW_OFFSET_Y, IDLE_WIDTH *s.flipW() ,IDLE_HEIGTH, null);
+					break;
+				case ATTACKING:
+					g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], s.flipX() + (int)s.getHitbox().x - ATTACKING_DRAW_OFFSET_X - xLvlOffset, (int)s.getHitbox().y - ATTACKING_DRAW_OFFSET_Y, ATTACKING_WIDTH*s.flipW() ,ATTACKING_HEIGHT, null);
+					break;
+				case DEAD:
+					g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], s.flipX() + (int)s.getHitbox().x - xLvlOffset, (int)s.getHitbox().y, DEAD_WIDTH*s.flipW() ,DEAD_HEIGTH, null);
+					break;
+				case HIT:
+					g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], s.flipX() + (int)s.getHitbox().x - xLvlOffset, (int)s.getHitbox().y, HIT_WIDTH*s.flipW() ,HIT_HEIGTH, null);
+					break;
+				case WALK:
+					g.drawImage(skellyArr[s.getEnemyState()][s.GetAniIndex()], s.flipX() + (int)s.getHitbox().x -WALK_DRAW_OFFSET_X - xLvlOffset, (int)s.getHitbox().y - WALK_DRAW_OFFSET_Y , WALK_WIDTH*s.flipW(),WALK_HEIGTH, null);
+					break;
+				
+				}
 			}
-			s.drawHitbox(g);
-
+			
+			//s.drawHitbox(g);
+			//s.drawAttackBox(g, xLvlOffset);
+			
 		}
 		
 	} 
+	
+	public void checkEnemyHit(Rectangle2D.Float attackBox) {
+		for(Skelly s : skellies) {
+			if(s.isActive()) {
+				if(attackBox.intersects(s.getHitbox())) {
+					s.hurt(10);
+					return;
+				}
+			}
+		}
+	}
 	
 	private void addEnemys() {
 		skellies = LoadSave.getSkelled();
@@ -93,5 +111,11 @@ public class EnemyManager {
 			}
 		}
 		
+	}
+	
+	public void resetAllEnemies() {
+		for(Skelly s: skellies) {
+			s.resetEnemy();
+		}
 	}
 }

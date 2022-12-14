@@ -4,6 +4,7 @@ package entities;
 import static utilz.Constants.SkellyConstants.*;
 import static utilz.HelpMethods.*;
 
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 
 import static utilz.Constants.Directions.*;
@@ -25,11 +26,19 @@ public class Enemy extends Entity{
 	
 	protected int tileY;
 	protected float attackDistance = Game.TILES_SIZE;
+	
+	protected int maxHealth;
+	protected int currentHealth;
 
+	protected boolean active = true;
+	protected boolean attackChecked;
+	
 	public Enemy(float x, float y, int width, int height,int enemyType) {
 		super(x, y, width, height);
 		this.enemyType = enemyType;
 		initHitbox(x,y,width,height);
+		maxHealth = GetMaxHealth(enemyType);
+		currentHealth = maxHealth;
 		
 	}
 	
@@ -116,8 +125,9 @@ public class Enemy extends Entity{
 			aniIndex++;
 			if(aniIndex >= GetSpriteAmount(enemyType,enemyState)) {
 				aniIndex = 0;
-				if(enemyState == ATTACKING) {
-					enemyState = IDLE;
+				switch(enemyState) {
+					case ATTACKING,HIT -> enemyState = IDLE;
+					case DEAD -> active = false;
 				}
 					
 			}
@@ -149,6 +159,36 @@ public class Enemy extends Entity{
 		return enemyState;
 	}
 	
+	public void hurt(int amount) {
+		currentHealth -= amount;
+		if(currentHealth <= 0) {
+			newState(DEAD);
+		}else {
+			newState(HIT);
+		}
+	}
 	
+	public boolean isActive() {
+		return active;
+	}
+	
+	protected void checkEnemyHit(Rectangle2D.Float attackBox1, Rectangle2D.Float attackBox2,Player player) {
+		//its in the name, dum-dum
+		if(attackBox1.intersects(player.hitbox) || attackBox2.intersects(player.hitbox)) {
+			player.changeHealth(-GetEnemyDmg(enemyType));
+		}
+		attackChecked = true;
+		
+	}
+	
+	public void resetEnemy() {
+		hitbox.x = x;
+		hitbox.y = y;
+		firstUpdate = true;
+		currentHealth = maxHealth;
+		newState(IDLE);
+		active = true;
+		fallSpeed = 0;
+	}
 
 }

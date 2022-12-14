@@ -28,6 +28,7 @@ public class LoadSave {
 	public static final String PLAYING_BG_IMG = "playing_bg_img.png";
 	public static final String BIG_CLOUDS = "big_clouds.png";
 	public static final String SMALL_CLOUDS = "small_clouds.png";
+	public static final String STATUS_BAR = "health_power_bar.png";
 	
 	//enemy sheneanigains 
 	public static final String SKELLY_RUN = "Skeleton_Walk.png";
